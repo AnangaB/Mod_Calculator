@@ -2,7 +2,12 @@ import { Stack } from "stack-typescript";
 
 type tokenType = "Operand" | "Operation" | "Undecided";
 
-
+/**Calls upon convertInfixToPostfix and then evaluatePostFixExpression, to convert in-fix expression in param into post-fix and then evaluates the post fix.
+ * 
+ * @param exp a in-fix expression, which needs to be evaluated
+ * @param n the modding value n
+ * @returns a result to the given in-fix expression, could be a "ERROR" that it returns
+ */
 export function evaluateInfixExpression(exp: string, n: number){
   console.log("Intial: ", exp);
   let postfix_exp = convertInfixToPostfix(exp);
@@ -11,6 +16,11 @@ export function evaluateInfixExpression(exp: string, n: number){
   return evaluatePostFixExpression(postfix_exp, n);
 }
 
+/**Converts an Infix expression to post-fix
+ * 
+ * @param infixString a infix string
+ * @returns a post-fix version of the input infix string
+ */
 
 export function convertInfixToPostfix(infixString: string) {
   if (!infixString || infixString.length === 0) {
@@ -73,7 +83,12 @@ export function convertInfixToPostfix(infixString: string) {
     //return evaluateExpression(result);
   }
 
-// returns a tokenType string of a given character input
+  /**A helper function that returns the type of a given character input. 
+   * The type is defined above as tokenType, and could be "Operand",'Operation" or "Undecided".
+   * 
+   * @param inputString a input character,
+   * @returns the tokenType of the param char
+   */
 function getCharType(inputString: string): tokenType {
   if (inputString.length > 0) {
     let c = inputString.charAt(0);
@@ -86,7 +101,11 @@ function getCharType(inputString: string): tokenType {
   return "Undecided";
 }
 
-// returns the precedence of an operation
+/**A helper function, that ouputs the precidence value of an operation. This is neccesary for converting in-fix to post-fix notation.
+ * 
+ * @param operation an operation such as +,-,*, etc.
+ * @returns an int representing the precidence value of an operation
+ */
 function getPrecidenceValueOfOperation(operation: string): number {
   operation = operation.charAt(0);
 
@@ -100,6 +119,12 @@ function getPrecidenceValueOfOperation(operation: string): number {
   return -1;
 }
 
+/** Mods a given number, by given number n
+ * 
+ * @param value a number that needs to be modded
+ * @param n the modding int value n
+ * @returns the value mod n
+ */
 function mod(value:number, n:number){
   let result = (value % n);
   if(result < 0){
@@ -109,6 +134,12 @@ function mod(value:number, n:number){
 
 }
 
+/**Evaluates a postfix expression, or returns Error
+ * 
+ * @param input a postfix expression
+ * @param n the modding int value n
+ * @returns the result of the postfix input
+ */
 export function evaluatePostFixExpression(input : string, n: number){
   console.log("workign with n: ",n);
   if (!input || input.length === 0) {

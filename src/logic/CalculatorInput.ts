@@ -1,5 +1,12 @@
 import { evaluateInfixExpression } from "./evaluateInputLogic";
 
+/**Function handles button presses, and calls up evaluateInfixExpression to evaluate expressions when neccesary
+ * 
+ * @param value the value of the button that has been clicked, could be a digit, operation or the equal sign
+ * @param displayingItems the current string that is being displayed in the calculator
+ * @param n the moding value
+ * @returns a new string to be displayed in the calcuator, to replace the param displayingItems
+ */
 export function getNewDisplayingItems(value: string, displayingItems: string, n: number): string {
   if (!isNaN(parseInt(value)) && isFinite(parseInt(value))) {
     if (displayingItems === "0") {
@@ -37,14 +44,4 @@ export function getNewDisplayingItems(value: string, displayingItems: string, n:
     
   }
   return `${displayingItems}`;
-};
-
-
-export const evaluateExpression = (expresion: string) => {
-  if (expresion == null) {
-    return;
-  }
-  //convert to postfix
-
-  for (let i = 0; i < expresion.length; i++) {}
 };
