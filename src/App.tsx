@@ -2,6 +2,7 @@ import { useState } from "react";
 import CalculatorButton from "./components/CalculatorButton.tsx";
 import TopDisplay from "./components/TopDisplay.tsx";
 import { getNewDisplayingItems } from "./logic/CalculatorHandleButtonInputLogic.ts";
+import PageBanner from "./components/PageBanner.tsx";
 
 function App() {
   const [displayingItems, setDisplayingItems] = useState<string>("0");
@@ -70,10 +71,12 @@ function App() {
   }
 
   return (
-    <div className="container-fluid border border-primary">
+    <div className="container-fluid bg-light">
+      <PageBanner />
       <div className="row justify-content-center">
-        <div className="col-md-9 col-lg-6 p-3 border border-primary">
+        <div className="col-md-9 col-lg-6 p-3 border border-dark rounded border-5">
           {resultDisplay}
+          <div className="my-3 w-100 border-top border-5 border-dark"></div>
           {buttons}
         </div>
       </div>

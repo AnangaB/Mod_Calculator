@@ -17,7 +17,6 @@ export function square_and_multiply(a: bigint, b: bigint, n: bigint): bigint {
         if (b_as_binary_string[i] == "1") {
             z = (z * a) % n;
         }
-        console.log(`i=${i}, z=${z}`);
     }
 
     return z % n;

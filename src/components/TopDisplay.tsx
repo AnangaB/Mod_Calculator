@@ -30,13 +30,13 @@ const TopDisplay = ({ value, onNChange }: Props) => {
   }
 
   return (
-    <div className="border row justify-content-between">
-      <div className="col-6 border border-primary">
+    <div className="row justify-content-between pb-3">
+      <div className="col-6 border border-dark border-3">
         <p className="fs-6" style={{ wordWrap: "break-word" }}>
           {value}
         </p>
       </div>
-      <div className="col-6 border-primary d-flex overflow-auto justify-content-start">
+      <div className="col-6 d-flex overflow-auto justify-content-start">
         <label htmlFor="n">
           <p style={{ paddingRight: "1rem" }}>mod</p>
         </label>
