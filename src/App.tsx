@@ -70,10 +70,12 @@ function App() {
   }
 
   return (
-    <div className="container-sm d-flex  justify-content-center border border-primary">
-      <div className=" col-sm-12 col-md-6 col-lg-5 p-3 border border-primary">
-        {resultDisplay}
-        {buttons}
+    <div className="container-fluid border border-primary">
+      <div className="row justify-content-center">
+        <div className="col-md-9 col-lg-6 p-3 border border-primary">
+          {resultDisplay}
+          {buttons}
+        </div>
       </div>
     </div>
   );

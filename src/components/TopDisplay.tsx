@@ -40,7 +40,7 @@ const TopDisplay = ({ value, onNChange }: Props) => {
           {value}
         </p>
       </div>
-      <div className="col-6 border-primary d-flex">
+      <div className="col-6 border-primary d-flex overflow-auto justify-content-start">
         <label htmlFor="n">
           <p style={{ paddingRight: "1rem" }}>mod</p>
         </label>
