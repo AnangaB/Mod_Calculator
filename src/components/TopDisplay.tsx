@@ -30,7 +30,7 @@ const TopDisplay = ({ value, onNChange }: Props) => {
   }
 
   return (
-    <div className="row justify-content-between pb-3">
+    <div className="row justify-content-between pb-3 h6">
       <div className="col-6 border border-dark border-3">
         <p className="fs-6" style={{ wordWrap: "break-word" }}>
           {value}
