@@ -7,7 +7,7 @@ const PageBanner = () => {
           This calculator lets you do addition, multiplication, subtraction,
           divisions and exponentiation, in the mod n, of your choice. Abitratry
           precision is built in, so there is support for most large number
-          computation.
+          computation. (Currently the log button is not working)
         </p>
       </div>
     </div>

@@ -37,16 +37,18 @@ const TopDisplay = ({ value, onNChange }: Props) => {
         </p>
       </div>
       <div className="col-6 d-flex overflow-auto justify-content-start">
-        <label htmlFor="n">
-          <p style={{ paddingRight: "1rem" }}>mod</p>
-        </label>
         {!isNFixed && (
           <div>
+            <label htmlFor="n">
+              <p className="h5" style={{ paddingRight: "1rem" }}>
+                mod
+              </p>
+            </label>
             <input
               className={
                 isValidNInput
                   ? "form-control"
-                  : "form-control border border-danger border-2"
+                  : "form-control border border-danger border-3"
               }
               placeholder={nInput}
               type="number"
@@ -65,7 +67,7 @@ const TopDisplay = ({ value, onNChange }: Props) => {
         )}
         {isNFixed && (
           <div>
-            <p>{String(n)}</p>
+            <p className="h5">mod {String(n)}</p>
             <button
               type="button"
               className="btn btn-danger"
