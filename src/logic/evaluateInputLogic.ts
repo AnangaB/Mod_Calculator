@@ -126,13 +126,12 @@ function getPrecidenceValueOfOperation(operation: string): number {
  * @param n the modding int value n
  * @returns the value mod n
  */
-function mod(value: bigint, n: bigint): bigint{
+function mod(value: bigint, n: bigint): bigint {
   let result = value % n;
-  if(result < 0n){
+  if (result < 0n) {
     return result + n;
   }
   return result;
-
 }
 
 /**Evaluates a postfix expression, or returns Error
@@ -188,6 +187,7 @@ function evaluatePostFixExpression(input : string, n: bigint){
       }
       if( exp[i] == "^"){
         stack.push(String(square_and_multiply(val2,val1,n)));
+        console.log("doing ", val2, " to the power of ", val1);
       }
 
     }
