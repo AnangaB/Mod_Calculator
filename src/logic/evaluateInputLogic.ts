@@ -1,7 +1,4 @@
-
-import { Console } from "console";
 import { Stack } from "stack-typescript";
-import { isNumber } from "util";
 
 type tokenType = "Operand" | "Operation" | "Undecided";
 
