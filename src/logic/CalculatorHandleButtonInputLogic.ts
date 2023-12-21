@@ -7,7 +7,7 @@ import { evaluateInfixExpression } from "./evaluateInputLogic";
  * @param n the moding value
  * @returns a new string to be displayed in the calcuator, to replace the param displayingItems
  */
-export function getNewDisplayingItems(value: string, displayingItems: string, n: number): string {
+export function getNewDisplayingItems(value: string, displayingItems: string, n: bigint): string {
   if (!isNaN(parseInt(value)) && isFinite(parseInt(value))) {
     if (displayingItems === "0") {
       return `${value}`;
@@ -36,9 +36,8 @@ export function getNewDisplayingItems(value: string, displayingItems: string, n:
     return "0";
   }
   else if (value == "=") {
-    if(!isNaN(n) &&
-    n > 0 &&
-    Number.isInteger(n)){
+    if((typeof (n) === "bigint") &&
+    n > 0n){
       return evaluateInfixExpression(displayingItems,n);
     }
     

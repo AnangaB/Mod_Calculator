@@ -1,12 +1,12 @@
 import { useState } from "react";
 import CalculatorButton from "./components/CalculatorButton.tsx";
 import TopDisplay from "./components/TopDisplay.tsx";
-import { getNewDisplayingItems } from "./logic/CalculatorInput.ts";
+import { getNewDisplayingItems } from "./logic/CalculatorHandleButtonInputLogic.ts";
 
 function App() {
   const [displayingItems, setDisplayingItems] = useState<string>("0");
 
-  const [nValue, setNValue] = useState(-1);
+  const [nValue, setNValue] = useState(-1n);
 
   //construct the display
   let resultDisplay = (

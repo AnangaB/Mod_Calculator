@@ -1,4 +1,5 @@
 import { Stack } from "stack-typescript";
+import {square_and_multiply} from "./square_and_multiply.ts";
 
 type tokenType = "Operand" | "Operation" | "Undecided";
 
@@ -8,7 +9,7 @@ type tokenType = "Operand" | "Operation" | "Undecided";
  * @param n the modding value n
  * @returns a result to the given in-fix expression, could be a "ERROR" that it returns
  */
-export function evaluateInfixExpression(exp: string, n: number){
+export function evaluateInfixExpression(exp: string, n: bigint){
   console.log("Intial: ", exp);
   let postfix_exp = convertInfixToPostfix(exp);
   
@@ -22,7 +23,7 @@ export function evaluateInfixExpression(exp: string, n: number){
  * @returns a post-fix version of the input infix string
  */
 
-export function convertInfixToPostfix(infixString: string) {
+function convertInfixToPostfix(infixString: string) {
   if (!infixString || infixString.length === 0) {
     return "ERROR";
   }
@@ -125,9 +126,9 @@ function getPrecidenceValueOfOperation(operation: string): number {
  * @param n the modding int value n
  * @returns the value mod n
  */
-function mod(value:number, n:number){
-  let result = (value % n);
-  if(result < 0){
+function mod(value: bigint, n: bigint): bigint{
+  let result = value % n;
+  if(result < 0n){
     return result + n;
   }
   return result;
@@ -140,7 +141,7 @@ function mod(value:number, n:number){
  * @param n the modding int value n
  * @returns the result of the postfix input
  */
-export function evaluatePostFixExpression(input : string, n: number){
+function evaluatePostFixExpression(input : string, n: bigint){
   console.log("workign with n: ",n);
   if (!input || input.length === 0) {
     return "ERROR";
@@ -156,7 +157,7 @@ export function evaluatePostFixExpression(input : string, n: number){
   //case when there are only two elements in exp, where top most is "-", and below is a number
   if(exp.length == 2 && exp[1] == "-" && !isNaN(parseInt(exp[0],10))){
     console.log("Special Case entered: ", `${exp[1]}${exp[0]}`)
-    return String(mod(Number(`${exp[1]}${exp[0]}`),n));
+    return String(mod(BigInt(`${exp[1]}${exp[0]}`),n));
   }
 
 
@@ -166,10 +167,10 @@ export function evaluatePostFixExpression(input : string, n: number){
       stack.push(exp[i]);
     }
     else{
-      let val1 = Number(stack.pop());
-      let val2 = Number(stack.pop());
+      let val1 = BigInt(stack.pop());
+      let val2 = BigInt(stack.pop());
 
-      if(isNaN(val1) || isNaN(val2)){
+      if( typeof val1 != "bigint"|| typeof val2 != "bigint"){
         return "ERROR";
       }
 
@@ -186,14 +187,14 @@ export function evaluatePostFixExpression(input : string, n: number){
         stack.push(String(mod(val2-val1,n)));
       }
       if( exp[i] == "^"){
-        stack.push(String(mod(Math.pow(val2,val1),n)));
+        stack.push(String(square_and_multiply(val2,val1,n)));
       }
 
     }
     
   }
 
-  return String(mod(Number(stack.pop()),n));
+  return String(mod(BigInt(stack.pop()),n));
 
 
 

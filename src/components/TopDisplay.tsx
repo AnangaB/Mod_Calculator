@@ -2,24 +2,20 @@ import { useState } from "react";
 
 interface Props {
   value: string;
-  onNChange: (n: number) => void;
+  onNChange: (n: bigint) => void;
 }
 
 const TopDisplay = ({ value, onNChange }: Props) => {
   const [isNFixed, setIsNFixed] = useState(false);
 
-  const [n, setN] = useState<number>(-1);
+  const [n, setN] = useState<bigint>(-1n);
 
   const [nInput, setNInput] = useState("n");
 
   const [isValidNInput, setIsValidNInput] = useState(true);
   function setButtonOnClick() {
-    const parsedValue = parseFloat(nInput);
-    if (
-      !isNaN(parsedValue) &&
-      parsedValue > 0 &&
-      Number.isInteger(parsedValue)
-    ) {
+    const parsedValue = BigInt(nInput);
+    if (typeof parsedValue === "bigint" && parsedValue > 0) {
       setN(parsedValue);
       setIsNFixed(true);
       setIsValidNInput(true);
@@ -69,7 +65,7 @@ const TopDisplay = ({ value, onNChange }: Props) => {
         )}
         {isNFixed && (
           <div>
-            <p>{n}</p>
+            <p>{String(n)}</p>
             <button
               type="button"
               className="btn btn-danger"
