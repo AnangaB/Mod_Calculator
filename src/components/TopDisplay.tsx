@@ -4,7 +4,7 @@ interface Props {
   value: string;
   onNChange: (n: bigint) => void;
 }
-
+//Responsible for the calculator input display and the mod n option/display
 const TopDisplay = ({ value, onNChange }: Props) => {
   const [isNFixed, setIsNFixed] = useState(false);
 

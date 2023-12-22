@@ -5,8 +5,9 @@ import { getNewDisplayingItems } from "./logic/CalculatorHandleButtonInputLogic.
 import PageBanner from "./components/PageBanner.tsx";
 
 function App() {
+  //displayingItems refers to the numbers and operations being typed in as input
   const [displayingItems, setDisplayingItems] = useState<string>("0");
-
+  //nValue is the modiing value n
   const [nValue, setNValue] = useState(-1n);
 
   //construct the display
@@ -38,6 +39,7 @@ function App() {
     "C",
   ];
 
+  //when a calculator button is clicked, the value of that button is passed on to handleButtonClick whihc handles it by calling upon function getNewDisplayingItems
   const handleButtonClick = (value: string) => {
     const currentDisplayingItems = displayingItems || "";
 
@@ -46,6 +48,7 @@ function App() {
     );
   };
 
+  //store all the buttons display in buttons
   const buttons = [];
   for (let i = 0; i < 20; i += 4) {
     buttons.push(
@@ -73,6 +76,8 @@ function App() {
       </div>
     );
   }
+
+  //display the buttons, top display and the banner
 
   return (
     <div className="container-fluid bg-light">

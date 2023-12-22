@@ -1,3 +1,5 @@
+//Component for the top part of the webpage
+//inlcudes the header and a short description
 const PageBanner = () => {
   return (
     <div className="jumbotron">

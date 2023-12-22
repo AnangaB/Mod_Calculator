@@ -4,7 +4,7 @@ interface Props {
   value: string;
   onClick: () => void;
 }
-
+//component for a calculator button, when button clicked or a key pressed correspoding to button value, then the passed fucnction onClick will run
 const CalculatorButton = ({ value, onClick }: Props) => {
   useEffect(() => {
     const handleKeyPress = (event: { key: string }) => {
