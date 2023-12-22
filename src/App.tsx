@@ -51,19 +51,23 @@ function App() {
     buttons.push(
       <div className="row mb-3 gx-3 gy-3">
         <CalculatorButton
+          key={i}
           value={buttonValues[i]}
           onClick={() => handleButtonClick(buttonValues[i])}
         />
         <CalculatorButton
           value={buttonValues[i + 1]}
+          key={i + 1}
           onClick={() => handleButtonClick(buttonValues[i + 1])}
         />
         <CalculatorButton
           value={buttonValues[i + 2]}
+          key={i + 2}
           onClick={() => handleButtonClick(buttonValues[i + 2])}
         />
         <CalculatorButton
           value={buttonValues[i + 3]}
+          key={i + 3}
           onClick={() => handleButtonClick(buttonValues[i + 3])}
         />
       </div>
@@ -74,7 +78,7 @@ function App() {
     <div className="container-fluid bg-light">
       <PageBanner />
       <div className="row justify-content-center">
-        <div className="col-md-9 col-lg-6 p-3 border border-dark rounded border-5">
+        <div className="col-md-9 col-lg-6 p-3 mx-5 border border-dark rounded border-5">
           {resultDisplay}
           <div className="my-3 w-100 border-top border-5 border-dark"></div>
           {buttons}

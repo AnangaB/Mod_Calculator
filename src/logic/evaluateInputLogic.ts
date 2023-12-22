@@ -166,12 +166,19 @@ function evaluatePostFixExpression(input : string, n: bigint){
       stack.push(exp[i]);
     }
     else{
-      let val1 = BigInt(stack.pop());
-      let val2 = BigInt(stack.pop());
-
-      if( typeof val1 != "bigint"|| typeof val2 != "bigint"){
+      let val1,val2;
+      try {
+        val1 = BigInt(stack.pop());
+        val2 = BigInt(stack.pop());
+    
+        if (typeof val1 !== "bigint" || typeof val2 !== "bigint") {
+            throw new Error("Invalid values in the stack");
+        }
+    
+        // Continue with your calculations using val1 and val2
+    } catch (error) {
         return "ERROR";
-      }
+    }
 
       if( exp[i] == "*"){
         stack.push(String(mod(val2*val1,n)));
