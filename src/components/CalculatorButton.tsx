@@ -3,12 +3,17 @@ import { useEffect } from "react";
 interface Props {
   value: string;
   onClick: () => void;
+  shouldKeyPressBerecognized: boolean;
 }
 //component for a calculator button, when button clicked or a key pressed correspoding to button value, then the passed fucnction onClick will run
-const CalculatorButton = ({ value, onClick }: Props) => {
+const CalculatorButton = ({
+  value,
+  onClick,
+  shouldKeyPressBerecognized,
+}: Props) => {
   useEffect(() => {
     const handleKeyPress = (event: { key: string }) => {
-      if (event.key === value) {
+      if (event.key === value && !shouldKeyPressBerecognized) {
         onClick();
       }
     };
@@ -20,7 +25,7 @@ const CalculatorButton = ({ value, onClick }: Props) => {
     return () => {
       document.removeEventListener("keydown", handleKeyPress);
     };
-  }, [value, onClick]);
+  }, [value, onClick, shouldKeyPressBerecognized]);
 
   return (
     <button

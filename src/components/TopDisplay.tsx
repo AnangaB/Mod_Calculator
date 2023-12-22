@@ -3,9 +3,10 @@ import { useState } from "react";
 interface Props {
   value: string;
   onNChange: (n: bigint) => void;
+  isTextFieldActive: (b: boolean) => void;
 }
 //Responsible for the calculator input display and the mod n option/display
-const TopDisplay = ({ value, onNChange }: Props) => {
+const TopDisplay = ({ value, onNChange, isTextFieldActive }: Props) => {
   const [isNFixed, setIsNFixed] = useState(false);
 
   const [n, setN] = useState<bigint>(-1n);
@@ -20,6 +21,7 @@ const TopDisplay = ({ value, onNChange }: Props) => {
       setIsNFixed(true);
       setIsValidNInput(true);
       onNChange(parsedValue);
+      isTextFieldActive(false);
     } else {
       setIsValidNInput(false);
     }
@@ -54,6 +56,8 @@ const TopDisplay = ({ value, onNChange }: Props) => {
               type="number"
               id="n"
               name="n"
+              onFocus={() => isTextFieldActive(true)}
+              onBlur={() => isTextFieldActive(false)}
               onChange={(e) => setNInput(e.target.value)}
             />
             <button

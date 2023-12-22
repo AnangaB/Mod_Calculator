@@ -10,9 +10,16 @@ function App() {
   //nValue is the modiing value n
   const [nValue, setNValue] = useState(-1n);
 
+  //making the buttons work, also by keyboard press
+  const [isNTextfieldActive, setIsNTextfieldActive] = useState(false);
+
   //construct the display
   let resultDisplay = (
-    <TopDisplay value={"" + displayingItems} onNChange={setNValue}></TopDisplay>
+    <TopDisplay
+      value={"" + displayingItems}
+      onNChange={setNValue}
+      isTextFieldActive={setIsNTextfieldActive}
+    ></TopDisplay>
   );
   console.log("nvalue in app ", nValue);
   //construct the buttons
@@ -57,21 +64,25 @@ function App() {
           key={i}
           value={buttonValues[i]}
           onClick={() => handleButtonClick(buttonValues[i])}
+          shouldKeyPressBerecognized={isNTextfieldActive}
         />
         <CalculatorButton
           value={buttonValues[i + 1]}
           key={i + 1}
           onClick={() => handleButtonClick(buttonValues[i + 1])}
+          shouldKeyPressBerecognized={isNTextfieldActive}
         />
         <CalculatorButton
           value={buttonValues[i + 2]}
           key={i + 2}
           onClick={() => handleButtonClick(buttonValues[i + 2])}
+          shouldKeyPressBerecognized={isNTextfieldActive}
         />
         <CalculatorButton
           value={buttonValues[i + 3]}
           key={i + 3}
           onClick={() => handleButtonClick(buttonValues[i + 3])}
+          shouldKeyPressBerecognized={isNTextfieldActive}
         />
       </div>
     );
