@@ -1,5 +1,6 @@
 import { Stack } from "stack-typescript";
 import {square_and_multiply} from "./square_and_multiply.ts";
+import {computeInverse} from "./gcdAlgorithms.ts";
 
 type tokenType = "Operand" | "Operation" | "Undecided";
 
@@ -11,10 +12,38 @@ type tokenType = "Operand" | "Operation" | "Undecided";
  */
 export function evaluateInfixExpression(exp: string, n: bigint){
   console.log("Intial: ", exp);
-  let postfix_exp = convertInfixToPostfix(exp);
+  let processedInfix = preprocessInfixExpression(exp,n);
+  console.log("Proccessed: ", processedInfix);
+
+  let postfix_exp = convertInfixToPostfix(processedInfix);
   
 
   return evaluatePostFixExpression(postfix_exp, n);
+}
+
+function preprocessInfixExpression(exp:string,n:bigint):string{
+
+  const negativeIntegerRegex = /[^\^]\((-\d+)\)/g;
+  //handle negative bracketed integers such as (-a), but none in the exponent
+  let removedNegativeIntegers = exp.replace(negativeIntegerRegex, (_, capturedNumber) => "("+String(mod(BigInt(capturedNumber), n))+")");
+  //handle multiplications of form (a)b, an d replace with a*b mod n
+  //const bracketMultiplication = /(\d+)\((\d+)\)|(\))(\()|\((\d+)\)(\d+)/g;
+  const bracketMultiplication = /(\d+)(\()|(\))(\()|(\))(\d+)/g;
+
+  let addMultiplicationSign = removedNegativeIntegers.replace(bracketMultiplication, (_, ...groups) => {
+    const firstOperand = groups[0] || groups[2] || groups[4];
+    const secondOperand = groups[1] || groups[3] || groups[5];
+    console.log( firstOperand + "*" + secondOperand);
+    return firstOperand + "*" + secondOperand;
+     });
+
+    // substiute inverses
+    let inverseRegex = /(\d)+\^\(\-(\d+)\)/g;
+    let inverseSubstituted = addMultiplicationSign.replace(inverseRegex, (_, ...capturedNumbers) => ""+computeInverse(BigInt(capturedNumbers[0]),BigInt(capturedNumbers[1]),n))+"";
+    return inverseSubstituted;
+
+
+//'\((\-\d+)\)'
 }
 
 /**Converts an Infix expression to post-fix
@@ -27,24 +56,29 @@ function convertInfixToPostfix(infixString: string) {
   if (!infixString || infixString.length === 0) {
     return "ERROR";
   }
+  console.log("convertInfixToPostfix: ",infixString );
+  
   
   let result = "";
-
-  
-    // initialize the stack by pushing a "("
+ 
     let stack = new Stack<string>();
     let i = 0;
   
     while (i < infixString.length) {
+      console.log("i: ",i, " result: ", result );
+
       let currentChar = infixString.charAt(i);
       let charType = getCharType(currentChar);
-  
+   
       if (charType === "Operand") {
         // Operand case: add it to the result
         result += currentChar;
         i++;
       } else if (charType === "Operation") {
-        result +=",";
+        if(result[result.length -1] !== ","){
+          result +=",";
+        }
+
         // Operator case
         if (currentChar === "(") {
           stack.push(currentChar);
@@ -146,7 +180,9 @@ function evaluatePostFixExpression(input : string, n: bigint){
     return "ERROR";
   }
 
-  input = input.replace(/^,|,,/g, "");
+  input = input.replace(/^,/g, "");
+  input = input.replace(/,,/g, ",");
+
   console.log("PostFix Exp: ", input);
 
   let stack = new Stack<string>();
@@ -200,8 +236,11 @@ function evaluatePostFixExpression(input : string, n: bigint){
     }
     
   }
-
-  return String(mod(BigInt(stack.pop()),n));
+  try{
+    return String(mod(BigInt(stack.pop()),n));
+  } catch{
+    return "ERROR";
+  }
 
 
 

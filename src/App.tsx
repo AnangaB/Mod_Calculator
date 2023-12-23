@@ -59,7 +59,7 @@ function App() {
   const buttons = [];
   for (let i = 0; i < 20; i += 4) {
     buttons.push(
-      <div className="row mb-3 gx-3 gy-3">
+      <div className="row mb-3">
         <CalculatorButton
           key={i}
           value={buttonValues[i]}
