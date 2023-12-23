@@ -38,8 +38,11 @@ function preprocessInfixExpression(exp:string,n:bigint):string{
      });
 
     // substiute inverses
-    let inverseRegex = /(\d)+\^\(\-(\d+)\)/g;
-    let inverseSubstituted = addMultiplicationSign.replace(inverseRegex, (_, ...capturedNumbers) => ""+computeInverse(BigInt(capturedNumbers[0]),BigInt(capturedNumbers[1]),n))+"";
+    let inverseRegex = /(\d+)\^\(\-(\d+)\)/g;
+    let inverseSubstituted = addMultiplicationSign.replace(inverseRegex, (_, ...capturedNumbers) => {
+      console.log("capturedNumbers[0] is ",capturedNumbers[0]," capturedNumbers[1] is ",capturedNumbers[1]);
+      return ""+computeInverse(BigInt(capturedNumbers[0]),BigInt(capturedNumbers[1]),n) + "";
+    });
     return inverseSubstituted;
 
 

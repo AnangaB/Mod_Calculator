@@ -1,5 +1,17 @@
-/*import { evaluatePostFixExpression, convertInfixToPostfix} from './../evaluateInputLogic.ts';
+/*import { evaluateInfixExpression} from './../evaluateInputLogic.ts';
+describe('evaluateInfixExpression', () => { 
 
+  it("Addition: 33+77 should equal 11", () =>{
+    expect(evaluateInfixExpression("33+77",99n)).toBe("11");
+  });
+  
+  it("More Complex Expression: (3 + 4 / 2 * (1 - 5)^2) should equal 11", () =>{
+    expect(evaluateInfixExpression("(3 + 4 / 2 * (1 - 5)^2)",44n)).toBe("35");
+  });
+  
+ });*/
+
+/**
 describe("evaluatePostFixExpression", () => {
 
     //testing if evaluatePostFixExpression is working correctly
@@ -54,4 +66,4 @@ describe("convertInfixToPostfix", () => {
       expect(convertInfixToPostfix("2 + A * 4")).toBe("ERROR");
     });
   });
-  */
+**/

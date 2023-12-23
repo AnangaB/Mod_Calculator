@@ -12,13 +12,9 @@ function gcdExtended(a:bigint,b:bigint,x:bigint,y:bigint):[bigint,bigint,bigint]
         y =1n;
         return [b,x,y];
     }
-    let gcd = gcdExtended(b %a,a,x,y)[0];
-    
-    let x1 =x;
-    let y1 =y;
+    let [gcd, x1, y1] = gcdExtended(b % a, a, x, y);
 
-    let temp = b/a;
-    x = y1 - temp * x1; 
+    x = y1 - (b/a) * x1; 
     y = x1; 
 
     return [gcd,x,y];
@@ -36,11 +32,17 @@ function gcdExtended(a:bigint,b:bigint,x:bigint,y:bigint):[bigint,bigint,bigint]
  */
 export function computeInverse(a:bigint,b:bigint,n:bigint):bigint{
 
-    let [gcd,x,y] = gcdExtended(a,n,1n,0n);
-    if(gcd != 1n){
-        return n+1n;
+    if(a == 1n || a == 0n){
+        return a;
     }
+    let [gcd,x] = gcdExtended(a,n,1n,0n).slice(0, 2);
+    if(gcd != 1n){
+        return n;
+    }
+    console.log("the x is ",x);
+
     let inverse = (x % n + n) % n; 
+    console.log("the inverse of ",a," is ",inverse, " and now doing inverse ^ ", b);
     return square_and_multiply(inverse,b,n);
 
 
