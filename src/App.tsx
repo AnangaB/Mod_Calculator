@@ -6,7 +6,10 @@ import PageBanner from "./components/PageBanner.tsx";
 
 function App() {
   //displayingItems refers to the numbers and operations being typed in as input
-  const [displayingItems, setDisplayingItems] = useState<string>("0");
+  //const [displayingItems, setDisplayingItems] = useState<string>("0");
+  const [displayingItems, setDisplayingItems] = useState<string>(
+    "(32432^(10*22*2)+22*33^(33)+(222*333^(222-22*33)))"
+  );
   //nValue is the modiing value n
   const [nValue, setNValue] = useState(-1n);
 
@@ -21,7 +24,6 @@ function App() {
       isTextFieldActive={setIsNTextfieldActive}
     ></TopDisplay>
   );
-  console.log("nvalue in app ", nValue);
   //construct the buttons
   const buttonValues = [
     "1",

@@ -36,17 +36,78 @@ function preprocessInfixExpression(exp:string,n:bigint):string{
     console.log( firstOperand + "*" + secondOperand);
     return firstOperand + "*" + secondOperand;
      });
+  //reduce expressions in the exponents
+  console.log("after adding multiplication signs between brackets: ", addMultiplicationSign);
+  let regexExponent = /\d+\)\^\((.*)\)|\d+\^\((.*)\)/g;
+  let reduceExponentExpression = addMultiplicationSign.replace(regexExponent,(_,...matches) => {
+    if(matches[0]){
+      return _.replace(matches[0],reduceBracketedExponentExpression(matches[0],phi(n)));
+    }
+    else{
+      return _.replace(matches[1],reduceBracketedExponentExpression(matches[1],phi(n)));
+    }
+      
+    });
+  console.log("the reduceExponentExpression is ", reduceExponentExpression);
+  
+//  let reduceExponentExpression = reduceBracketedExponentExpression(addMultiplicationSign,n);
 
     // substiute inverses
     let inverseRegex = /\(?(\d+)\)?\^\(\-(\d+)\)/g;
-    let inverseSubstituted = addMultiplicationSign.replace(inverseRegex, (_, ...capturedNumbers) => {
+    let inverseSubstituted = reduceExponentExpression.replace(inverseRegex, (_, ...capturedNumbers) => {
       console.log("capturedNumbers[0] is ",capturedNumbers[0]," capturedNumbers[1] is ",capturedNumbers[1]);
       return ""+computeInverse(BigInt(capturedNumbers[0]),BigInt(capturedNumbers[1]),n) + "";
     });
     return inverseSubstituted;
 
+}
 
-//'\((\-\d+)\)'
+function reduceBracketedExponentExpression(exp:string,n:bigint):string{
+  if(exp == "ERROR"){
+    return "ERROR";
+  }
+  let regex = /\((.*)\)|\^\((.*)\)/g;
+  console.log("going to test ", exp);
+  
+  if(regex.test(exp)){
+
+    let match = exp.match(regex);
+    console.log("match is ",match);
+    exp = exp.replace(regex, (_,...matched) => {
+      if(matched[0]){
+        console.log("here at matched[0]")
+        return reduceBracketedExponentExpression(matched[0],n);
+      }
+      else{
+        console.log("here at matched[1]")
+
+        return reduceBracketedExponentExpression(matched[1],phi(n));
+      }
+    });      
+  }
+
+    exp = convertInfixToPostfix(exp);
+    exp = evaluatePostFixExpression(exp,n);
+    console.log(exp)
+    return exp;
+
+}
+
+function phi(n : bigint){
+  let result = n;
+  for(let i = 2n; i*i <= n; i++){
+    if(n % i == 0n){
+      while(n % i == 0n){
+          n /= i;
+      }
+      result -= result / i;
+    } 
+  }
+  if(n > 1){
+    result -= result / n;
+  }
+  console.log("phi(" + n +") is "+ result);
+  return result;  
 }
 
 /**Converts an Infix expression to post-fix
@@ -68,7 +129,7 @@ function convertInfixToPostfix(infixString: string) {
     let i = 0;
   
     while (i < infixString.length) {
-      console.log("i: ",i, " result: ", result );
+      console.log(i, " ", infixString.charAt(i), " result:", result)
 
       let currentChar = infixString.charAt(i);
       let charType = getCharType(currentChar);
@@ -88,8 +149,9 @@ function convertInfixToPostfix(infixString: string) {
           i++;
         } else if (currentChar === ")") {
           // Right parenthesis case: pop operators until a "(" is encountered
-          while (stack.top !== "(") {
+          while (stack.top !== "(" && stack.top) {
             result += (stack.pop()) + ",";
+            console.log("result in while loop: ",result )
           }
           // Discard the "("
           stack.pop();
@@ -178,7 +240,6 @@ function mod(value: bigint, n: bigint): bigint {
  * @returns the result of the postfix input
  */
 function evaluatePostFixExpression(input : string, n: bigint){
-  console.log("workign with n: ",n);
   if (!input || input.length === 0) {
     return "ERROR";
   }
@@ -186,6 +247,9 @@ function evaluatePostFixExpression(input : string, n: bigint){
   input = input.replace(/^,/g, "");
   input = input.replace(/,,/g, ",");
 
+  if(input[input.length -1] == ","){
+    input = input.slice(0,input.length -1)
+  }
   console.log("PostFix Exp: ", input);
 
   let stack = new Stack<string>();
@@ -198,9 +262,17 @@ function evaluatePostFixExpression(input : string, n: bigint){
     return String(mod(BigInt(`${exp[1]}${exp[0]}`),n));
   }
 
+  let exp_string = ""
+  for(let i = 0; i < exp.length;i++){
+    exp_string += exp[i] +","
+  }
+  console.log("exp_string: ",exp_string)
+
 
 
   for(let i = 0; i < exp.length;i++){
+    console.log("the remaining input is: ", input.slice(i,))
+    console.log("currently on exp ", exp[i])
     if(getCharType(exp[i]) == "Operand"){
       stack.push(exp[i]);
     }
@@ -212,11 +284,12 @@ function evaluatePostFixExpression(input : string, n: bigint){
     
         if (typeof val1 !== "bigint" || typeof val2 !== "bigint") {
             throw new Error("Invalid values in the stack");
+
         }
     
         // Continue with your calculations using val1 and val2
     } catch (error) {
-        return "ERROR";
+      return "ERROR";
     }
 
       if( exp[i] == "*"){
@@ -248,3 +321,25 @@ function evaluatePostFixExpression(input : string, n: bigint){
 
 
 }
+
+/*
+function printStackValues<T>(stack: Stack<T>): void {
+  console.log("Stack values:");
+  
+  // Create a temporary stack to preserve the original stack order
+  const tempStack = new Stack<T>();
+
+  // Pop elements from the original stack and print them
+  while (!stack.top) {
+    const value = stack.pop();
+    if (value !== undefined) {
+      console.log(value);
+      tempStack.push(value); // Preserve the original order
+    }
+  }
+
+  // Restore the original stack order
+  while (!tempStack.top) {
+    stack.push(tempStack.pop()!);
+  }
+}*/
