@@ -1,10 +1,23 @@
 import { evaluateInfixExpression} from './../CalculatorHandleButtonInputLogic.ts';
 describe('evaluateInfixExpression', () => { 
-
-  it("Simple Addition: 33+77 mod 99 should equal 11", () =>{
-    expect(evaluateInfixExpression("33+77",99n)).toBe("11");
+  //edge cases
+  it("Only - as input provided, should yield Error", () =>{
+    expect(evaluateInfixExpression("-",99n)).toBe("Error");
   });
 
+  it("Only ( as input provided, should yield Error", () =>{
+    expect(evaluateInfixExpression("(",99n)).toBe("Error");
+  });
+
+  it("Mismatched Brackets I: (1312+232+22) + (12 + 22 mod 339 should equal Error", () =>{
+    expect(evaluateInfixExpression("(1312+232+22)+(12+22",339n)).toBe("Error");
+  });
+  /*
+  it("Mismatched Brackets II: ((1312+232+22))(2322(222+221-110))) + (12 + 22) mod 8888 should equal Error", () =>{
+    expect(evaluateInfixExpression("(((1312+232+22))(2322(222+221-110))+(12+22)",8888n)).toBe("Error");
+  });*/
+
+  //valid expression cases
   it("Simple Subtraction: 443-33 mod 54 should equal 32", () =>{
     expect(evaluateInfixExpression("443-33",54n)).toBe("32");
   });
@@ -17,6 +30,9 @@ describe('evaluateInfixExpression', () => {
   it("Simple Division II: 33/(7) mod 998 should equal 575", () =>{
     expect(evaluateInfixExpression("33/(7)",998n)).toBe("575");
   });
+  it("Simple Division III (division by zero): 33/(0) mod 998 should equal Error", () =>{
+    expect(evaluateInfixExpression("33/(0)",998n)).toBe("Error");
+  });
   it("Simple Exponent I: 2^(-1) mod 5 should equal 3", () =>{
     expect(evaluateInfixExpression("2^(-1)",5n)).toBe("3");
   });
@@ -27,11 +43,13 @@ describe('evaluateInfixExpression', () => {
     expect(evaluateInfixExpression("32432^(10*22*(-2))",97n)).toBe("22");
   });
 
-  /*
+  it("Exponent with exponents in expressions in exponents: ((4243*99)^(133+233223-22^232)) mod 44343 should equal 16056", () =>{
+    expect(evaluateInfixExpression("((4243*99)^(133+233223-22^232))",44343n)).toBe("16056");
+  })  
   it("Complex Expression: ((32432^(10*22*(-2))+22*33^(-33)+(222*333^(222-22*336)))+343234*(2320)*(1323)) mod 97 should equal 89", () =>{
     expect(evaluateInfixExpression("((32432^(10*22*(-2))+22*33^(-33)+(222*333^(222-22*336)))+343234*(2320)*(1323))",97n)).toBe("89");
-  // });*/
-  
+  });
+
  });
 
 

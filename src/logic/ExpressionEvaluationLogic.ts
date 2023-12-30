@@ -166,6 +166,11 @@ import { Stack } from "stack-typescript";
      }
      node = nodeStack.pop();
 
+     //if there are still expressions left in the stack, then the input expression was not valid
+     if(nodeStack.length > 0){
+        return null;
+     }
+
      fixOperationsModValueInTree(node, n);
 
      return node;
@@ -318,13 +323,10 @@ function fixOperationsModValueInTree(root:ExpressionNode|null, n:bigint){
     // Convert all )( to )*( or )a to )*a or a( to a*(
     exp = exp.replace(/\)\(/g, ')*('); // Convert adjacent parentheses to multiplication
     exp = exp.replace(/(\d+)\(/g, '$1*('); // Convert digit followed by ( to digit*(
-    
-          
+              
     //mark any parts that are of form (-a) where a is a positive integer
     let negativeBracketsRegex = /(\(\-\d+\))/g;
     exp = exp.replace(negativeBracketsRegex, (_,wholeMatch) => "_" + wholeMatch + "_");
-
-
 
   return exp;
 }
