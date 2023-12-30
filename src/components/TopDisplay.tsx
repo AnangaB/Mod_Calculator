@@ -14,6 +14,7 @@ const TopDisplay = ({ value, onNChange, isTextFieldActive }: Props) => {
   const [nInput, setNInput] = useState("n");
 
   const [isValidNInput, setIsValidNInput] = useState(true);
+
   function setButtonOnClick() {
     const parsedValue = BigInt(nInput);
     if (typeof parsedValue === "bigint" && parsedValue > 0) {
@@ -32,13 +33,13 @@ const TopDisplay = ({ value, onNChange, isTextFieldActive }: Props) => {
   }
 
   return (
-    <div className="row justify-content-between pb-3 h6">
-      <div className="col-6 border border-dark border-3">
-        <p className="fs-6" style={{ wordWrap: "break-word" }}>
+    <div className="row justify-content-between pb-3">
+      <div className="col-8 m-0 bg-info border border-left-0 border-top-0 border-dark rounded-0 border-5">
+        <p className="h4" style={{ wordWrap: "break-word" }}>
           {value}
         </p>
       </div>
-      <div className="col-6 d-flex overflow-auto justify-content-start">
+      <div className="col-4 d-flex overflow-auto justify-content-start">
         {!isNFixed && (
           <div>
             <label htmlFor="n">

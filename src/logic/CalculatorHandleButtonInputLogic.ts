@@ -1,4 +1,4 @@
-import { evaluateTree,buildExpressionTree } from './ExpressionEvaluationLogic';
+import { evaluateTree,buildExpressionTree,mod } from './ExpressionEvaluationLogic';
 import {ExpressionNode, OperationExpressionNode} from './ExpressionNode'; 
 
 /**Function handles button presses, and calls up evaluateInfixExpression to evaluate expressions when neccesary
@@ -9,16 +9,17 @@ import {ExpressionNode, OperationExpressionNode} from './ExpressionNode';
  * @returns a new string to be displayed in the calcuator, to replace the param displayingItems
  */
 export function getNewDisplayingItems(value: string, displayingItems: string, n: bigint): string {
-  
   //if value is a number or a bracket 
   if ((!isNaN(parseInt(value)) && isFinite(parseInt(value))) || (["(",")"].includes(value))) {
     if ((displayingItems === "0" || displayingItems === "Error") && value != ")") {
       return `${value}`;
     } 
     else if ((displayingItems === "0" || displayingItems === "Error") && value == ")") {
+
       return `${displayingItems}`;
     } 
     else {
+
       return `${displayingItems}${value}`;
     }
   } 
@@ -44,27 +45,34 @@ export function getNewDisplayingItems(value: string, displayingItems: string, n:
     return "0";
   }
   else if (value == "=") {
+
+    //special case, when only a digit is in input
+  
+    try {
+      const displayingItemsAsBigInt = BigInt(displayingItems);
+      if (typeof displayingItemsAsBigInt === "bigint") {
+        return String(mod(displayingItemsAsBigInt, n));
+      }
+    } catch (error) {}
+    
+
     if((typeof (n) === "bigint") &&
     n > 0n){
       return evaluateInfixExpression(displayingItems,n);
-    }
-    
+    } 
   }
   return `${displayingItems}`;
 };
 
 
-/**Calls upon convertInfixToPostfix and then evaluatePostFixExpression, to convert in-fix expression in param into post-fix and then evaluates the post fix.
+/**Evaluates a given infix expression, evaluates it by calling evaluateTree(tree) or returns "Error"
  * 
  * @param exp a in-fix expression, which needs to be evaluated
  * @param n the modding value n
  * @returns a result to the given in-fix expression, could be a "ERROR" that it returns
  */
 export function evaluateInfixExpression(exp: string, n: bigint){
-  /*console.log("Intial: ", exp);
-  let processedInfix = preprocessInfixExpression(exp,n);
-  console.log("Proccessed: ", processedInfix);*/
-  console.log(exp)
+
   let tree: ExpressionNode|OperationExpressionNode|null = buildExpressionTree(exp,n);
 
   if(!tree){

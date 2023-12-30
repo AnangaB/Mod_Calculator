@@ -25,9 +25,6 @@ function gcdExtended(a:bigint,b:bigint):[bigint,bigint]{
 
         xi = xi_2 - qi * xi_1;
 
-        console.log("ri = ",ri, " and xi = ", xi, " xi_1 = ", xi_1, " xi_2 = ", xi_2, " and qi = ", qi )
-
-
         xi_2 = xi_1;
         xi_1 = xi
 
@@ -46,11 +43,15 @@ function gcdExtended(a:bigint,b:bigint):[bigint,bigint]{
  * @param n the modding value n
  */
 
-export function computeInverse(a:bigint,b:bigint,n:bigint):bigint{
+export function computeInverse(a:bigint,n:bigint):bigint{
 
-    if(a == 1n || a == 0n){
+    if(a == 1n){
         return a;
     }
+    if(a == 0n){
+      //error when computing the inverse of 0
+      return n;
+  }
     let [gcd,x] = gcdExtended(a,n);
     if(gcd != 1n){
         return n;
@@ -58,10 +59,11 @@ export function computeInverse(a:bigint,b:bigint,n:bigint):bigint{
 
     let inverse = x % n;
     if(inverse < 0n){
-        inverse =(inverse + n) % n;
+        inverse =(inverse + n) % n; 
     } 
 
-    return square_and_multiply(inverse,b,n);
+    return inverse;
+   //return square_and_multiply(inverse,b,n);
 
 
 }
@@ -92,7 +94,6 @@ export function phi(n : bigint){
     if(n > 1){
       result -= result / n;
     }
-    console.log("phi(" + n +") is "+ result);
     return result;  
   }
 

@@ -17,6 +17,7 @@ function App() {
   //construct the display
   let resultDisplay = (
     <TopDisplay
+      key="result-display"
       value={"" + displayingItems}
       onNChange={setNValue}
       isTextFieldActive={setIsNTextfieldActive}
@@ -48,41 +49,56 @@ function App() {
 
   //when a calculator button is clicked, the value of that button is passed on to handleButtonClick whihc handles it by calling upon function getNewDisplayingItems
   const handleButtonClick = (value: string) => {
-    const currentDisplayingItems = displayingItems || "";
+    const currentDisplayingItems = displayingItems;
 
     setDisplayingItems(
       getNewDisplayingItems(value, currentDisplayingItems, nValue)
     );
   };
 
+  //function to assign a color to a button depending on its index
+  function getButtonColor(i: number) {
+    if (i >= 10 && i < 18) {
+      return "primary";
+    } else if (i == 18) {
+      return "danger";
+    } else if (i == 19) {
+      return "warning";
+    }
+    return "dark";
+  }
   //store all the buttons display in buttons
   const buttons = [];
   for (let i = 0; i < 20; i += 4) {
     buttons.push(
-      <div className="row mb-3">
+      <div className="row" key={`button-row-${i}`}>
         <CalculatorButton
-          key={i}
+          key={"button" + buttonValues[i]}
           value={buttonValues[i]}
           onClick={() => handleButtonClick(buttonValues[i])}
           shouldKeyPressBerecognized={isNTextfieldActive}
+          color={getButtonColor(i)}
         />
         <CalculatorButton
+          key={"button" + buttonValues[i + 1]}
           value={buttonValues[i + 1]}
-          key={i + 1}
           onClick={() => handleButtonClick(buttonValues[i + 1])}
           shouldKeyPressBerecognized={isNTextfieldActive}
+          color={getButtonColor(i + 1)}
         />
         <CalculatorButton
+          key={"button" + buttonValues[i + 2]}
           value={buttonValues[i + 2]}
-          key={i + 2}
           onClick={() => handleButtonClick(buttonValues[i + 2])}
           shouldKeyPressBerecognized={isNTextfieldActive}
+          color={getButtonColor(i + 2)}
         />
         <CalculatorButton
           value={buttonValues[i + 3]}
-          key={i + 3}
+          key={"button" + buttonValues[i + 3]}
           onClick={() => handleButtonClick(buttonValues[i + 3])}
           shouldKeyPressBerecognized={isNTextfieldActive}
+          color={getButtonColor(i + 3)}
         />
       </div>
     );
@@ -94,9 +110,8 @@ function App() {
     <div className="container-fluid bg-light">
       <PageBanner />
       <div className="row justify-content-center">
-        <div className="col-md-9 col-lg-6 p-3 mx-5 border border-dark rounded border-5">
+        <div className="col-md-9 col-lg-6 border border-dark rounded-0 border-5">
           {resultDisplay}
-          <div className="my-3 w-100 border-top border-5 border-dark"></div>
           {buttons}
         </div>
       </div>

@@ -53,7 +53,6 @@ import { Stack } from "stack-typescript";
                     capturegroup += expression[i];
                     i++;
                 }
-                console.log("preprocessign capture group is: ", capturegroup)
                 expressionArr.push(capturegroup);
 
             }
@@ -91,14 +90,12 @@ import { Stack } from "stack-typescript";
 
      //preprocess exp before tokenizing
      exp = preprocessInfixExpression(exp)
-     console.log("after Preprocessing: ", exp)
 
      let expression = tokenizeInfix(exp);
      
 
      for (let i = 0; i < expression.length; i++)
      {
-        //console.log("adding into tree: ", expression[i])
          if (expression[i] == '(')
          {
              characterStack.push(expression[i]);
@@ -168,11 +165,8 @@ import { Stack } from "stack-typescript";
          }
      }
      node = nodeStack.pop();
-     if(node != null && node.left != null && node.right != null){
-        console.log(node.data, " left child: ", node.left.data, " right child: ", node.right.data)
-     }
+
      fixOperationsModValueInTree(node, n);
-     printBinaryTree(node);
 
      return node;
  }
@@ -206,17 +200,6 @@ function fixOperationsModValueInTree(root:ExpressionNode|null, n:bigint){
     }
  }
 
- export function postorder(root: ExpressionNode | null, outputString: string = "")
- {
-     if (root != null)
-     {
-        outputString = postorder(root.left, outputString);
-        outputString = postorder(root.right, outputString);
-        outputString += " " + root.data;
-        console.log(root.data)
-     }
-     return outputString;
- }
 
  /**Evaluates an expression tree, and outputs the result as a string or returns "Error" if the expression denoted by the expression tree is invalid.
   * A reason for error could be how the for expression of form a^(-b) mod n, there is no possible solution.
@@ -244,7 +227,8 @@ function fixOperationsModValueInTree(root:ExpressionNode|null, n:bigint){
      return "Error";
  }
 
-
+ //The following commented method can be used to print each of the nodes in the tree
+/*
  function printBinaryTree(root: ExpressionNode | null): void {
     if (root) {
         printBinaryTree(root.right);
@@ -261,7 +245,7 @@ function fixOperationsModValueInTree(root:ExpressionNode|null, n:bigint){
         console.log(output);
         printBinaryTree(root.left);
     }
-}
+}*/
 
 /**Helper function to evaluate operations between two numbers. The parameters below are being evalated as (b operation a) mod n
  * 
@@ -272,7 +256,12 @@ function fixOperationsModValueInTree(root:ExpressionNode|null, n:bigint){
  * @returns a string representing the result of the operation or outputs "Error" if evaluating the operation is not possible
  */
  export function performOperation(a:bigint, b:bigint, n:bigint, operation:string):string{
-    console.log("doing" , b, " ", operation, " ", a, " mod ", n)
+    if(operation != "^"){
+       a = mod(a,n);
+
+    }
+    
+    b = mod(b,n);
     if( operation == "*"){
         return String(mod(b*a,n));
       }
@@ -280,7 +269,13 @@ function fixOperationsModValueInTree(root:ExpressionNode|null, n:bigint){
         if((a % n) == 0n){
             return "Error";
         }
-        return (String(mod(b/a, n)));
+        // get inverse of a
+        let aInverse = computeInverse(a, n);
+        if(aInverse == n){
+                return "Error";
+        }else{
+            return (String(mod(b*aInverse, n)));            
+        }
       }
       else if( operation == "+"){
         return (String(mod(b+a,n)));
@@ -290,13 +285,13 @@ function fixOperationsModValueInTree(root:ExpressionNode|null, n:bigint){
       }
       else if( operation == "^"){
         if(a < 0n){
-            console.log("b is " , b)
-            let aInverse = computeInverse(b, (-1n)*a, n);
-            if(aInverse == n){
+            let bInverse = computeInverse(b, n);
+            if(bInverse == n){
                 return "Error";
             }
             else{
-                return (String(square_and_multiply(aInverse,(-1n)*b,n)));
+                //return (String(square_and_multiply(aInverse,(-1n)*b,n)));
+                return (String(square_and_multiply(bInverse,(-1n)*a,n)));
             }
             
         }
@@ -320,12 +315,18 @@ function fixOperationsModValueInTree(root:ExpressionNode|null, n:bigint){
   * @returns modified exp, for ease later when it comes to tokenizing 
   */
  function preprocessInfixExpression(exp:string):string{
-
+    // Convert all )( to )*( or )a to )*a or a( to a*(
+    exp = exp.replace(/\)\(/g, ')*('); // Convert adjacent parentheses to multiplication
+    exp = exp.replace(/(\d+)\(/g, '$1*('); // Convert digit followed by ( to digit*(
+    
+          
     //mark any parts that are of form (-a) where a is a positive integer
     let negativeBracketsRegex = /(\(\-\d+\))/g;
     exp = exp.replace(negativeBracketsRegex, (_,wholeMatch) => "_" + wholeMatch + "_");
-   
-    return exp;
+
+
+
+  return exp;
 }
 
     type tokenType = "Operand" | "Operation" | "Undecided";
@@ -372,7 +373,7 @@ function fixOperationsModValueInTree(root:ExpressionNode|null, n:bigint){
  * @param n the modding int value n
  * @returns the value mod n
  */
-function mod(value: bigint, n: bigint): bigint {
+export function mod(value: bigint, n: bigint): bigint {
     let result = value % n;
     if (result < 0n) {
       return result + n;
