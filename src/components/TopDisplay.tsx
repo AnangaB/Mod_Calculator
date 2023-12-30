@@ -50,8 +50,8 @@ const TopDisplay = ({ value, onNChange, isTextFieldActive }: Props) => {
             <input
               className={
                 isValidNInput
-                  ? "form-control"
-                  : "form-control border border-danger border-3"
+                  ? "form-control rounded-0"
+                  : "form-control border border-danger border-3 rounded-0"
               }
               placeholder={nInput}
               type="number"
@@ -64,7 +64,7 @@ const TopDisplay = ({ value, onNChange, isTextFieldActive }: Props) => {
             <button
               type="button"
               onClick={setButtonOnClick}
-              className="btn btn-primary"
+              className="btn btn-primary rounded-0"
             >
               Set
             </button>
@@ -75,7 +75,7 @@ const TopDisplay = ({ value, onNChange, isTextFieldActive }: Props) => {
             <p className="h5">mod {String(n)}</p>
             <button
               type="button"
-              className="btn btn-danger"
+              className="btn btn-danger rounded-0"
               onClick={changeButtonOnClick}
             >
               Change

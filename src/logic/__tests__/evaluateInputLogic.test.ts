@@ -12,10 +12,11 @@ describe('evaluateInfixExpression', () => {
   it("Mismatched Brackets I: (1312+232+22) + (12 + 22 mod 339 should equal Error", () =>{
     expect(evaluateInfixExpression("(1312+232+22)+(12+22",339n)).toBe("Error");
   });
-  /*
+  
   it("Mismatched Brackets II: ((1312+232+22))(2322(222+221-110))) + (12 + 22) mod 8888 should equal Error", () =>{
     expect(evaluateInfixExpression("(((1312+232+22))(2322(222+221-110))+(12+22)",8888n)).toBe("Error");
-  });*/
+  })
+
 
   //valid expression cases
   it("Simple Subtraction: 443-33 mod 54 should equal 32", () =>{

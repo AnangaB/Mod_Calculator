@@ -167,7 +167,7 @@ import { Stack } from "stack-typescript";
      node = nodeStack.pop();
 
      //if there are still expressions left in the stack, then the input expression was not valid
-     if(nodeStack.length > 0){
+     if(nodeStack.length > 0 || characterStack.length > 0){
         return null;
      }
 
