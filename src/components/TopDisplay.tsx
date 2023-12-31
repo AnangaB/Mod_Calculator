@@ -33,13 +33,13 @@ const TopDisplay = ({ value, onNChange, isTextFieldActive }: Props) => {
   }
 
   return (
-    <div className="row justify-content-between pb-3">
-      <div className="col-8 m-0 bg-info border border-left-0 border-top-0 border-dark rounded-0 border-5">
-        <p className="h4" style={{ wordWrap: "break-word" }}>
+    <div className="row justify-content-between">
+      <div className="col-8 m-0 bg-info border border-start-0 border-top-0 border-dark rounded-0 border-5">
+        <p className="h4 p-1" style={{ wordWrap: "break-word" }}>
           {value}
         </p>
       </div>
-      <div className="col-4 d-flex overflow-auto justify-content-start">
+      <div className="col-4 d-flex overflow-auto justify-content-start p-1 border-bottom border-dark border-5">
         {!isNFixed && (
           <div>
             <label htmlFor="n">

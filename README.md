@@ -1,30 +1,45 @@
-# React + TypeScript + Vite
+# Mod Calculator
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+A calculator allows you to perform addition, multiplication, subtraction, division, and exponentiation operations in modulo n of your choice. It is designed to handle large number computations efficiently by performing all individual operations in the specified modulo, and implementing different number theory algortihms.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- **Expression Computation:** Capable of computing complex expressions involving valid combinations of addition, multiplication, subtraction, division, brackets, and exponentiation in mod n (for n values inputed by user). The calculator converts infix statements in user input to an binary expression tree, for interpreting complex mathematical expressions with proper operator precedence and associativity.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **Arbitrary Precision Arithmetic:** The calculator leverages JavaScript's bigint data type, enabling the handling of arbitrarily large numbers as input. This ensures accurate computations even for large numerical values. However, due to hardware and computational resources constraints, sufficiently large numbers might limit performance.
 
-- Configure the top-level `parserOptions` property like this:
+- **Efficient Number Theoretic Algorithms to boost performance:**
+  - **Extended Euclidean Algorithm:** Facilitates the computation of inverses of numbers, essential for mod division or handling negative exponents.
+  - **Square and Multiply Algorithm:** Enables the efficient calculation of large exponents of the form \(a^b \mod n\), where \(a\) is an integer, and \(b\) and \(n\) are non-negative integers.
+  - **Euler Totient Function Algorithm:** Provides a method for computing the Euler Totient function or Phi function. This is particularly useful for expressions involving the power of exponents, which need to be done in mod Phi(n).
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+## Usage
+
+This calculator can be accessed at https://anangab.github.io/Mod_Calculator/ or can be done locally as described below:
+
+```bash
+# Clone the repository to your local machine:
+git clone https://github.com/AnangaB/Mod_Calculator
+
+# Navigate to the project directory:
+cd mod-calculator
+
+# Install NPM packages:
+npm install
+
+# Run the dev server:
+npm run dev
+
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Known Issue
+
+The log button is currently not functional and will be added as a feature in a future update.
+
+For sufficiently large values of n, the computations may experience delays or may not execute due to limitations in computational power.
+
+## License
+
+This project is licensed under the MIT License.

@@ -5,12 +5,19 @@ const PageBanner = () => {
     <div className="jumbotron">
       <div className="container">
         <h1 className="display-4">Mod Calculator</h1>
-        <p className="lead pb-5">
-          This calculator lets you do addition, multiplication, subtraction,
-          divisions and exponentiation, in the mod n, of your choice. Abitratry
-          precision is built in, so there is support for most large number
-          computation. (Currently the log button is not working)
+        <p className="lead">
+          Perform complex mathematical operations with ease using the Mod
+          Calculator. Whether it's addition, multiplication, subtraction,
+          division, or exponentiation, this calculator allows you to operate
+          within a specified modulo (n) of your choice. With a focus on
+          efficiency, the calculator utilizes Number Theoretic Algorithms,
+          including the Extended Euclidean Algorithm, Square and Multiply, and
+          the Euler Totient function.
         </p>
+        <div className="alert alert-danger" role="alert">
+          <strong>Note:</strong> The log button is currently not functional and
+          will be added as a feature in a future update.
+        </div>
       </div>
     </div>
   );

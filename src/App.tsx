@@ -7,9 +7,7 @@ import PageBanner from "./components/PageBanner.tsx";
 function App() {
   //displayingItems refers to the numbers and operations being typed in as input
   //const [displayingItems, setDisplayingItems] = useState<string>("0");
-  const [displayingItems, setDisplayingItems] = useState<string>(
-    "(1312+232+22)+(12+22"
-  );
+  const [displayingItems, setDisplayingItems] = useState<string>("0");
   //nValue is the modiing value n
   const [nValue, setNValue] = useState(-1n);
 
