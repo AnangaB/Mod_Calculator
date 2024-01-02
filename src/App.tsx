@@ -110,7 +110,7 @@ function App() {
     <div className="container-fluid bg-light">
       <PageBanner />
       <div className="row justify-content-center">
-        <div className="col-md-9 col-lg-6 border border-dark rounded-0 border-5">
+        <div className="col-md-9 col-lg-5 col-xl-4 border border-dark rounded-0 border-5">
           {resultDisplay}
           {buttons}
         </div>
